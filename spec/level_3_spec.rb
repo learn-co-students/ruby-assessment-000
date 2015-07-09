@@ -13,7 +13,7 @@ describe "Level 3" do
           ],
           :students => [ 
             {:name => "Marissa", :grade => "B"},
-            {:name=>"Billy", :grade => "F"},
+            {:name => "Billy", :grade => "F"},
             {:name => "Frank", :grade => "A"},
             {:name => "Sophie", :grade => "C"}
           ]
@@ -21,47 +21,65 @@ describe "Level 3" do
       end
 
       it "modifies the hash" do 
+        school[:founded_in] = 2013
       # modify school hash. Add key :founded_in with a value of 2013
       expect(school[:founded_in]).to eq(2013)
     end
 
     it "adds to a nested array" do
+      school[:students]<<{name: "Ralph"}
       # Add a student to the end of the school's students' array.
       expect(school[:students].count).to eq(5)
       expect(school[:students].last[:name]).to_not eq("Sophie")
     end
 
     it "deletes values from nested array" do
-      # Delete the student named "Billy" from the hash
+      school[:students].delete_at(1) # Delete the student named "Billy" from the hash
       expect(school[:students].count).to eq(3)
       expect(school[:students].find {|student| student[:name] == 'Billy'}).to be_nil
     end
 
     it "modifies all values from nested array" do
+      school[:students].each do |x|
+        x[:semester] = "Summer"
+      end
       # Add a key to every student in the students array with a key of :semester and assign it the value "Summer".
       expect(school[:students].all? {|student| student[:semester] == "Summer"}).to eq(true)
     end
 
     it "changes value of hash in nested array" do
+      school[:instructors][1][:subject] = "Being Fantastic"
       # Change Steven's subject to "Being Fantastic"
       expect(school[:instructors].find{|instructor| instructor[:name] == "Steven"}[:subject]).to eq "Being Fantastic"
     end
 
     it "changes value of hash in nested students array" do
+      school[:students][2][:grade] = "F"
       # Change Frank's grade from "A" to "F".
       expect(school[:students].find{|student| student[:name] == "Frank"}[:grade]).to eq "F"
     end
 
     it "finds student by their grade" do
-      student_name = :banana # Return the name of the student with a "B".
+      student_name = ""
+      school[:students].each do |x| 
+        if x[:grade] == "B" 
+          student_name<<x[:name]
+        end
+      end
+         # Return the name of the student with a "B".
       expect(student_name).to eq "Marissa"
     end
 
     it "finds subject by its instructor" do
-      subject_name = :banana # Return the subject of the instructor "Jeff".
+      subject_name = ""
+      school[:instructors].each do |x| 
+        if x[:name] == "Jeff" 
+          subject_name<<x[:subject]
+        end
+      end  # Return the subject of the instructor "Jeff".
       expect(subject_name).to eq("Karaoke")
     end
-
+    <<-DOC
     it "returns all values from all hashes, including nested ones" do
       expect(STDOUT).to receive(:puts).with("Happy Funtime School")
       expect(STDOUT).to receive(:puts).with("NYC")
@@ -82,5 +100,6 @@ describe "Level 3" do
 
       # puts all the values in the school. NOTE: If this takes too long, skip it!
     end
+    DOC
   end
 end

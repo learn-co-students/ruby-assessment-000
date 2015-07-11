@@ -26,31 +26,8 @@ describe "Level 4" do
       begin
         expect(grade_for("Marissa", school)).to eq("B")
       rescue NoMethodError
-        abort "You have to define a grade_for method in lib/level4.rb"
+        abort "You have to define a grade_for method in lib/level_4.rb"
       end
-    end
-
-    describe "#find_instructor" do
-      it "can find instructor when given the instructor's name and school hash" do
-        blake = find_instructor("Blake", school)
-        expect(blake[:subject]).to eq("Being Awesome")
-        steven = find_instructor("Steven", school)
-        expect(steven[:subject]).to eq("Being Very Cool")
-        katie = find_instructor("Katie", school)
-        expect(katie[:subject]).to eq("Being Pretty Chill")
-      end
-    end
-   
-    it "updates an instructor's subject" do
-      update_subject_for("Blake", "Being Amazing", school)
-      blake = find_instructor("Blake", school)
-      expect(blake[:subject]).to eq("Being Amazing")
-    end
-    
-    it "adds new student to hash" do
-      add_student("Santiago Mitre", "A", school)
-      santiago = find_student("Santiago Mitre", school)
-      expect(santiago[:name]).to eq("Santiago Mitre")
     end
 
     it "adds new top level keys" do
